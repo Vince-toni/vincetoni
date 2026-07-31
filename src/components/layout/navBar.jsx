@@ -1,6 +1,6 @@
 import { useState, useRef, useLayoutEffect, useEffect } from "react";
 import { gsap } from "gsap";
-import { siteData } from "./data";
+import { siteData } from "../data";
 
 export default function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
