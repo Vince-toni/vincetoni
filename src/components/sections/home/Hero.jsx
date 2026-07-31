@@ -139,7 +139,7 @@ export default function Hero() {
       {/* Background Image */}
       <div
         ref={backgroundRef}
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-[60%_center] bg-no-repeat md:bg-center"
         style={{
           backgroundImage: "url('/hero1.png')",
         }}
