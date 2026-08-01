@@ -139,7 +139,7 @@ export default function Hero() {
       {/* Background Image */}
       <div
         ref={backgroundRef}
-        className="absolute inset-0 bg-cover bg-[60%_center] bg-no-repeat md:bg-center"
+        className="absolute inset-0 bg-cover bg-position-[60%_center] bg-no-repeat md:bg-center"
         style={{
           backgroundImage: "url('/hero1.png')",
         }}
@@ -151,7 +151,7 @@ export default function Hero() {
       />
 
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-black/20" />
+      <div className="absolute inset-0 bg-linear-to-r from-black via-black/70 to-black/20" />
 
       {/* Hero Content */}
       <div className="relative z-10 mx-auto w-full max-w-7xl">
