@@ -34,6 +34,7 @@ export const siteData = {
     },
   },
 
+<<<<<<< HEAD
   projects: {
     eyebrow: "02 — Featured Work",
 
@@ -125,6 +126,39 @@ export const siteData = {
         },
       },
     ],
+=======
+  roadmap: {
+    eyebrow: "Roadmap",
+    title: "How we move from idea to delivery.",
+    description:
+      "Our process is designed to keep momentum while staying flexible, with clear milestones and thoughtful execution.",
+    items: [
+      {
+        number: "01",
+        title: "Discover & define",
+        description:
+          "We research, align on goals, and build the right plan for your product vision.",
+      },
+      {
+        number: "02",
+        title: "Design & validate",
+        description:
+          "We prototype, test, and refine the experience before moving into development.",
+      },
+      {
+        number: "03",
+        title: "Build & launch",
+        description:
+          "We ship high-quality products with clear steps, collaboration, and continuous improvement.",
+      },
+    ],
+  },
+
+  about: {
+    title: "Ideas into reality.",
+    description:
+      "VINCETONI is a technology organization focused on building meaningful digital products and exploring what's possible with technology.",
+>>>>>>> refs/remotes/origin/main
   },
 
   contact: {
