@@ -2,6 +2,9 @@ import { useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+import { siteData } from "../../data";
+import { theme } from "../../Design-token";
+
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Intro() {
@@ -11,7 +14,10 @@ export default function Intro() {
   const lineRef = useRef(null);
   const headingRef = useRef(null);
   const descriptionRef = useRef(null);
-  const cardRefs = useRef([]);
+
+  const cardsRef = useRef([]);
+
+  const { about } = siteData;
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -23,15 +29,12 @@ export default function Intro() {
         },
       });
 
-      // Section label
       tl.from(eyebrowRef.current, {
         opacity: 0,
         y: 20,
         duration: 0.6,
         ease: "power3.out",
       })
-
-        // Divider line
         .from(
           lineRef.current,
           {
@@ -42,20 +45,16 @@ export default function Intro() {
           },
           "-=0.3"
         )
-
-        // Main heading
         .from(
           headingRef.current,
           {
             opacity: 0,
-            y: 50,
-            duration: 0.9,
+            y: 40,
+            duration: 0.8,
             ease: "power3.out",
           },
-          "-=0.4"
+          "-=0.35"
         )
-
-        // Description
         .from(
           descriptionRef.current,
           {
@@ -64,17 +63,15 @@ export default function Intro() {
             duration: 0.7,
             ease: "power2.out",
           },
-          "-=0.5"
+          "-=0.45"
         )
-
-        // Pillars
         .from(
-          cardRefs.current,
+          cardsRef.current,
           {
             opacity: 0,
             y: 40,
-            duration: 0.7,
             stagger: 0.15,
+            duration: 0.7,
             ease: "power3.out",
           },
           "-=0.2"
@@ -88,129 +85,98 @@ export default function Intro() {
     <section
       ref={sectionRef}
       id="about"
-      className="bg-white px-6 pb-32 pt-24 text-black md:pb-40 md:pt-32"
+      className={`${theme.colors.heroGradient} ${theme.spacing.sectionCompact}`}
     >
-      <div className="mx-auto max-w-7xl">
+      <div className={theme.spacing.container}>
 
-        {/* Section Header */}
-        <div className="mb-16">
+        {/* Header */}
+        <div className="mb-20">
           <p
             ref={eyebrowRef}
-            className="text-sm font-medium uppercase tracking-[0.3em] text-black/50"
+            className={`${theme.typography.eyebrow} ${theme.colors.mutedLight}`}
           >
-            01 — About VINCETONI
+            {about.eyebrow}
           </p>
 
           <div
             ref={lineRef}
-            className="mt-6 h-px w-full origin-left bg-black/10"
+            className={`mt-8 h-px w-full origin-left ${theme.colors.lineLight}`}
           />
         </div>
 
-        {/* Main Introduction */}
-        <div className="grid gap-10 md:grid-cols-2 md:gap-16">
+        {/* Intro */}
+        <div className="grid gap-12 md:grid-cols-2 md:gap-20">
 
-          {/* Heading */}
           <h2
             ref={headingRef}
-            className="max-w-3xl text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl"
+            className={`${theme.typography.heading} ${theme.colors.headingLight}`}
           >
-            We turn ambitious ideas into meaningful technology.
+            {about.title}
           </h2>
 
-          {/* Description */}
           <div
             ref={descriptionRef}
-            className="max-w-xl md:ml-auto md:pt-2"
+            className="max-w-xl md:ml-auto"
           >
-            <p className="text-lg leading-relaxed text-black/60">
-              VINCETONI is a growing technology organization focused on
-              creating digital products, exploring emerging technologies,
-              and transforming ambitious ideas into experiences that make
-              a difference.
+            <p
+              className={`${theme.typography.body} ${theme.colors.bodyLight}`}
+            >
+              {about.description}
             </p>
           </div>
+
         </div>
 
         {/* Pillars */}
-        <div className="mt-24 grid border-t border-black/10 md:mt-28 md:grid-cols-3">
+        <div
+          className={`mt-28 grid ${theme.colors.borderLight} border-t md:grid-cols-3`}
+        >
+          {about.pillars.map((pillar, index) => (
+            <article
+              key={pillar.id}
+              ref={(el) => (cardsRef.current[index] = el)}
+              className={`
+                group py-10
+                ${
+                  index !== about.pillars.length - 1
+                    ? `border-b ${theme.colors.borderLight} md:border-b-0 md:border-r`
+                    : ""
+                }
+                ${index === 0 ? "md:pr-10" : ""}
+                ${index === 1 ? "md:px-10" : ""}
+                ${index === 2 ? "md:pl-10" : ""}
+              `}
+            >
+              <div className="flex items-center justify-between">
 
-          {/* Build */}
-          <div
-            ref={(el) => (cardRefs.current[0] = el)}
-            className="group border-b border-black/10 py-10 md:border-b-0 md:border-r md:pr-10"
-          >
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-black/40">
-                01
-              </span>
+                <span className={theme.colors.mutedLight}>
+                  {pillar.id}
+                </span>
 
-              <span className="text-black/30 transition-transform duration-300 group-hover:translate-x-1">
-                →
-              </span>
-            </div>
+                <span
+                  className={`${theme.colors.mutedLight} transition-transform duration-300 group-hover:translate-x-1`}
+                >
+                  →
+                </span>
 
-            <h3 className="mt-8 text-2xl font-semibold">
-              Build
-            </h3>
+              </div>
 
-            <p className="mt-4 leading-relaxed text-black/60">
-              We turn ideas into real products that solve problems
-              and create value.
-            </p>
-          </div>
+              <h3
+                className={`mt-8 ${theme.typography.cardTitle} ${theme.colors.headingLight}`}
+              >
+                {pillar.title}
+              </h3>
 
-          {/* Explore */}
-          <div
-            ref={(el) => (cardRefs.current[1] = el)}
-            className="group border-b border-black/10 py-10 md:border-b-0 md:border-r md:px-10"
-          >
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-black/40">
-                02
-              </span>
+              <p
+                className={`mt-4 ${theme.typography.body} ${theme.colors.bodyLight}`}
+              >
+                {pillar.description}
+              </p>
 
-              <span className="text-black/30 transition-transform duration-300 group-hover:translate-x-1">
-                →
-              </span>
-            </div>
-
-            <h3 className="mt-8 text-2xl font-semibold">
-              Explore
-            </h3>
-
-            <p className="mt-4 leading-relaxed text-black/60">
-              We experiment with new technologies and push the
-              boundaries of what's possible.
-            </p>
-          </div>
-
-          {/* Create */}
-          <div
-            ref={(el) => (cardRefs.current[2] = el)}
-            className="group py-10 md:pl-10"
-          >
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-black/40">
-                03
-              </span>
-
-              <span className="text-black/30 transition-transform duration-300 group-hover:translate-x-1">
-                →
-              </span>
-            </div>
-
-            <h3 className="mt-8 text-2xl font-semibold">
-              Create
-            </h3>
-
-            <p className="mt-4 leading-relaxed text-black/60">
-              We design digital experiences that are useful,
-              engaging, and built to last.
-            </p>
-          </div>
-
+            </article>
+          ))}
         </div>
+
       </div>
     </section>
   );

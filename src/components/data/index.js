@@ -34,7 +34,6 @@ export const siteData = {
     },
   },
 
-<<<<<<< HEAD
   projects: {
     eyebrow: "02 — Featured Work",
 
@@ -126,7 +125,8 @@ export const siteData = {
         },
       },
     ],
-=======
+  },
+
   roadmap: {
     eyebrow: "Roadmap",
     title: "How we move from idea to delivery.",
@@ -154,15 +154,34 @@ export const siteData = {
     ],
   },
 
-  about: {
-    title: "Ideas into reality.",
-    description:
-      "VINCETONI is a technology organization focused on building meaningful digital products and exploring what's possible with technology.",
->>>>>>> refs/remotes/origin/main
-  },
+ about: {
+  eyebrow: "01 — About VINCETONI",
 
-  contact: {
+  title: "Ideas into reality.",
+
+  description:
+    "VINCETONI is a technology organization focused on building meaningful digital products and exploring what's possible with technology.",
+
+  pillars: [
+    {
+      id: "01",
+      title: "Build",
+      description: "We transform ambitious ideas into digital products."
+    },
+    {
+      id: "02",
+      title: "Explore",
+      description: "We experiment with emerging technologies."
+    },
+    {
+      id: "03",
+      title: "Create",
+      description: "We design beautiful, lasting digital experiences."
+    }
+  ]
+},
+contact: {
     email: "hello@vincetoni.com",
     phone: "+447879232909",
-  },
+  },  
 };
