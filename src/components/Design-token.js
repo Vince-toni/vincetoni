@@ -1,31 +1,17 @@
-// src/designTokens.js
-
 export const theme = {
   colors: {
-    // Backgrounds
     background: "bg-black",
-    surface: "bg-[#F7F7F5]",
-    white: "bg-white",
+    surface: "bg-[#0a0a0a]",
+    elevated: "bg-[#111111]",
 
-    // Gradients
-    heroGradient:
-      "bg-gradient-to-b from-black via-[#111111] to-[#F7F7F5]",
+    sectionGradient: "bg-gradient-to-b from-black via-[#0a0a0a] to-black",
 
-    // Text
-    headingLight: "text-white",
-    headingDark: "text-black",
+    heading: "text-white",
+    body: "text-white/70",
+    muted: "text-white/40",
 
-    bodyLight: "text-white/70",
-    bodyDark: "text-black/60",
-
-    mutedLight: "text-white/40",
-    mutedDark: "text-black/40",
-
-    borderLight: "border-white/10",
-    borderDark: "border-black/10",
-
-    lineLight: "bg-white/10",
-    lineDark: "bg-black/10",
+    border: "border-white/10",
+    line: "bg-white/10",
   },
 
   spacing: {
@@ -35,23 +21,12 @@ export const theme = {
   },
 
   typography: {
-    eyebrow:
-      "text-xs font-medium uppercase tracking-[0.3em]",
-
-    display:
-      "text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-[0.95]",
-
-    heading:
-      "text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.05]",
-
-    cardTitle:
-      "text-2xl md:text-3xl font-semibold tracking-tight",
-
-    body:
-      "text-lg leading-relaxed",
-
-    caption:
-      "text-sm uppercase tracking-[0.2em]",
+    eyebrow: "text-xs font-medium uppercase tracking-[0.3em]",
+    display: "text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-[0.95]",
+    heading: "text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.05]",
+    cardTitle: "text-2xl md:text-3xl font-semibold tracking-tight",
+    body: "text-lg leading-relaxed",
+    caption: "text-sm uppercase tracking-[0.2em]",
   },
 
   radius: {
@@ -65,6 +40,6 @@ export const theme = {
   },
 
   shadow: {
-    soft: "shadow-lg shadow-black/5",
+    soft: "shadow-lg shadow-black/40",
   },
 };

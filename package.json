@@ -23,6 +23,7 @@
   "scripts": {
     "start": "BROWSER=none WDS_SOCKET_PORT=0 vite --port 3000",
     "build": "vite build",
+    "dev" : "vite",
     "preview": "vite preview",
     "test": "vitest"
   },

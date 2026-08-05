@@ -4,9 +4,10 @@ import { siteData } from "../data";
 
 export default function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
   const { brand, nav } = siteData;
 
-  
   const headerRef = useRef(null);
   const logoRef = useRef(null);
   const desktopLinksRef = useRef(null);
@@ -14,40 +15,59 @@ export default function NavBar() {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-        // 1. INITIAL ANIMATION ON PAGE LOAD
       gsap.from(headerRef.current, {
-        y: -100,        // start 100px above
-        opacity: 0,     // start invisible
-        duration: 1,    // 1 second long
-        ease: "power3.out", // starts fast, slows at the end
+        y: -100,
+        opacity: 0,
+        duration: 1,
+        ease: "power3.out",
       });
 
       gsap.from(logoRef.current, {
         opacity: 0,
-        x: -30,         // start 30px to the left
+        x: -30,
         duration: 0.8,
-        delay: .2,     // wait 0.2s after header starts
+        delay: 0.2,
         ease: "power2.out",
       });
 
-      // Desktop links stagger in (one after another)
       if (desktopLinksRef.current) {
         gsap.from(desktopLinksRef.current.children, {
           opacity: 0,
           y: -20,
           duration: 0.6,
-          stagger: 0.1,  // 0.1 second delay between each link
+          stagger: 0.08,
           delay: 0.4,
           ease: "power2.out",
         });
       }
     });
 
-    // Cleanup: if this component ever unmounts, kill the animations
     return () => ctx.revert();
-  }, []); 
+  }, []);
 
-  // 2. MOBILE MENU ANIMATION — runs whenever menuOpen changes
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 20);
+
+      const sections = nav.links
+        .map((l) => document.querySelector(l.href))
+        .filter(Boolean);
+
+      const current = sections.find((section) => {
+        const rect = section.getBoundingClientRect();
+        return rect.top <= 120 && rect.bottom > 120;
+      });
+
+      if (current) {
+        setActiveSection(`#${current.id}`);
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [nav.links]);
+
   useEffect(() => {
     if (!mobileMenuRef.current) return;
 
@@ -65,8 +85,8 @@ export default function NavBar() {
         {
           opacity: 1,
           x: 0,
-          stagger: 0.08,
-          duration: 0.4,
+          stagger: 0.06,
+          duration: 0.35,
           delay: 0.1,
           ease: "power2.out",
         }
@@ -79,63 +99,72 @@ export default function NavBar() {
         ease: "power3.in",
       });
     }
-  }, [menuOpen]); // runs every time menuOpen changes
+  }, [menuOpen]);
 
   return (
     <header
       ref={headerRef}
-      className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-black/80 backdrop-blur-md"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled
+          ? "border-b border-white/10 bg-black/90 backdrop-blur-xl shadow-lg shadow-black/20"
+          : "border-b border-white/5 bg-black/60 backdrop-blur-md"
+      }`}
     >
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-        {/* Logo */}
+      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6" aria-label="Main navigation">
         <a
           ref={logoRef}
           href="/"
-          className="text-lg font-bold tracking-widest text-white"
+          className="relative text-lg font-bold tracking-widest text-white transition-opacity duration-300 hover:opacity-80"
         >
           {brand.name}
         </a>
 
-        {/* Desktop Navigation */}
-        <ul
-          ref={desktopLinksRef}
-          className="hidden items-center gap-8 md:flex"
-        >
-          {nav.links.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                className="text-sm uppercase tracking-widest text-white/70 transition-colors hover:text-white"
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
+        <ul ref={desktopLinksRef} className="hidden items-center gap-1 md:flex">
+          {nav.links.map((link) => {
+            const isActive = activeSection === link.href;
+            return (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  className={`relative px-4 py-2 text-xs uppercase tracking-widest transition-colors duration-300 ${
+                    isActive ? "text-white" : "text-white/60 hover:text-white"
+                  }`}
+                >
+                  {link.label}
+                  <span
+                    className={`absolute bottom-0 left-1/2 h-px bg-white transition-all duration-300 -translate-x-1/2 ${
+                      isActive ? "w-4 opacity-100" : "w-0 opacity-0 group-hover:w-4"
+                    }`}
+                  />
+                </a>
+              </li>
+            );
+          })}
         </ul>
 
-        {/* Mobile Menu Button */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="text-white md:hidden"
+          className="relative flex h-10 w-10 items-center justify-center text-white transition-colors hover:text-white/80 md:hidden"
           aria-label="Toggle navigation menu"
           aria-expanded={menuOpen}
         >
-          {menuOpen ? "✕" : "☰"}
+          <span className={`absolute block h-px w-5 bg-current transition-all duration-300 ${menuOpen ? "rotate-45" : "-translate-y-1.5"}`} />
+          <span className={`absolute block h-px w-5 bg-current transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
+          <span className={`absolute block h-px w-5 bg-current transition-all duration-300 ${menuOpen ? "-rotate-45" : "translate-y-1.5"}`} />
         </button>
       </nav>
 
-      {/* Mobile Menu — ALWAYS in DOM, GSAP controls visibility */}
       <div
         ref={mobileMenuRef}
-        className="overflow-hidden border-t border-white/10 bg-black px-6 md:hidden"
+        className="overflow-hidden border-t border-white/10 bg-black/95 backdrop-blur-xl px-6 md:hidden"
         style={{ height: 0, opacity: 0 }}
       >
-        <ul className="flex flex-col gap-6 py-6">
+        <ul className="flex flex-col gap-1 py-6">
           {nav.links.map((link) => (
             <li key={link.href}>
               <a
                 href={link.href}
-                className="block text-lg text-white/80 transition-colors hover:text-white"
+                className="block rounded-lg px-3 py-3 text-base text-white/70 transition-all duration-300 hover:bg-white/5 hover:text-white active:bg-white/10"
                 onClick={() => setMenuOpen(false)}
               >
                 {link.label}
