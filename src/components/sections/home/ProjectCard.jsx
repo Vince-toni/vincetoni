@@ -1,113 +1,111 @@
+import StatusBadge, { ProgressBarLight } from "../../ui/StatusBadge";
+
 export default function ProjectCard({ project, index }) {
   const {
-    name,
-    status,
-    category,
+    title,
     description,
+    technologies,
+    tags,
+    status,
+    progress,
+    timeline,
+    contribution,
+    github,
+    demo,
     image,
-    projectPage,
-    tryProject,
   } = project;
 
+  const statusType = status === "Active" ? "active" : "in-progress";
+
   return (
-    <article className="group">
+    <article className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] transition-all duration-500 hover:border-white/20 hover:bg-white/[0.04]">
+      <div className="grid lg:grid-cols-5">
+        <div className="relative h-48 overflow-hidden lg:col-span-2 lg:h-auto lg:min-h-[280px]">
+          <img
+            src={image}
+            alt={title}
+            className="h-full w-full object-cover opacity-60 transition-all duration-700 group-hover:scale-[1.03] group-hover:opacity-80"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent lg:bg-gradient-to-r" />
 
-      {/* Project Image */}
-      <div className="relative h-[200px] w-full overflow-hidden rounded-xl border border-black/10 bg-black/5 sm:h-[240px] md:h-[280px]">
-
-        <img
-          src={image}
-          alt={`${name} project`}
-          className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-        />
-
-        {/* Subtle Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-70 transition-opacity duration-500 group-hover:opacity-90" />
-
-        {/* Project Number */}
-        <div className="absolute right-4 top-4">
-          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-black/40 text-[10px] font-medium text-white backdrop-blur-md">
-            {String(index).padStart(2, "0")}
-          </span>
-        </div>
-
-        {/* Project Status */}
-        <div className="absolute bottom-4 left-4">
-          <span className="rounded-full bg-black/40 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.2em] text-white backdrop-blur-md">
-            {status}
-          </span>
-        </div>
-
-      </div>
-
-      {/* Project Info */}
-      <div className="mt-6">
-
-        {/* Project Name */}
-        <h3 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-          {name}
-        </h3>
-
-        {/* Categories */}
-        <div className="mt-3 flex flex-wrap gap-2">
-          {category.map((item) => (
-            <span
-              key={item}
-              className="rounded-full border border-black/10 px-3 py-1 text-[10px] uppercase tracking-widest text-black/50"
-            >
-              {item}
+          <div className="absolute left-4 top-4">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 bg-black/50 text-[10px] font-medium text-white/70 backdrop-blur-sm">
+              {String(index + 1).padStart(2, "0")}
             </span>
-          ))}
+          </div>
         </div>
 
-        {/* Description */}
-        <p className="mt-4 max-w-md leading-relaxed text-black/60">
-          {description}
-        </p>
+        <div className="flex flex-col justify-between p-8 lg:col-span-3 lg:p-10">
+          <div>
+            <div className="flex flex-wrap items-center gap-3">
+              <StatusBadge status={status} statusType={statusType} />
+              <span className="text-[10px] uppercase tracking-[0.2em] text-white/30">{timeline}</span>
+            </div>
 
-        {/* Actions */}
-        <div className="mt-6 flex flex-wrap gap-3">
+            <h3 className="mt-5 text-2xl font-bold tracking-tight text-white transition-transform duration-500 group-hover:translate-x-1 md:text-3xl">
+              {title}
+            </h3>
 
-          {/* View Project */}
-          {projectPage.available ? (
-            <a
-              href={projectPage.href}
-              className="rounded-full bg-black px-5 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:scale-105 hover:bg-black/80"
-            >
-              {projectPage.label} →
-            </a>
-          ) : (
-            <button
-              type="button"
-              disabled
-              className="cursor-not-allowed rounded-full border border-black/10 px-5 py-2.5 text-sm font-medium text-black/30"
-            >
-              {projectPage.unavailableLabel || "Coming Soon"}
-            </button>
-          )}
+            <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/45 md:text-base">{description}</p>
 
-          {/* Try Project */}
-          {tryProject.available ? (
-            <a
-              href={tryProject.href}
-              className="rounded-full border border-black/15 px-5 py-2.5 text-sm font-medium transition-all duration-300 hover:bg-black hover:text-white"
-            >
-              {tryProject.label} →
-            </a>
-          ) : (
-            <button
-              type="button"
-              disabled
-              className="cursor-not-allowed rounded-full border border-black/10 bg-black/[0.02] px-5 py-2.5 text-sm font-medium text-black/30"
-            >
-              {tryProject.label} · {tryProject.unavailableLabel}
-            </button>
-          )}
+            <div className="mt-5 flex flex-wrap gap-2">
+              {tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full border border-white/10 px-3 py-1 text-[10px] uppercase tracking-widest text-white/35"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
 
+            <div className="mt-5 flex flex-wrap gap-2">
+              {technologies.map((tech) => (
+                <span key={tech} className="text-xs text-white/30">
+                  {tech}
+                  {technologies.indexOf(tech) < technologies.length - 1 && (
+                    <span className="ml-2 text-white/15" aria-hidden="true">·</span>
+                  )}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-8">
+            <div className="mb-2 flex items-center justify-between text-[10px] uppercase tracking-[0.2em] text-white/25">
+              <span>{contribution}</span>
+              <span>{progress}%</span>
+            </div>
+            <ProgressBarLight progress={progress} />
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a
+                href={github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-white/15 px-5 py-2.5 text-sm font-medium text-white/70 transition-all duration-300 hover:border-white/40 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+              >
+                GitHub →
+              </a>
+              {demo ? (
+                <a
+                  href={demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full bg-white px-5 py-2.5 text-sm font-medium text-black transition-all duration-300 hover:bg-white/90 focus:outline-none focus:ring-2 focus:ring-white/50"
+                >
+                  Live Demo →
+                </a>
+              ) : (
+                <span className="rounded-full border border-white/5 px-5 py-2.5 text-sm text-white/20">
+                  Demo coming soon
+                </span>
+              )}
+            </div>
+          </div>
         </div>
-
       </div>
-
     </article>
   );
 }

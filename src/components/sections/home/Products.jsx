@@ -4,16 +4,16 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { siteData } from "../../data";
-import ProjectCard from "./ProjectCard";
+import ProductCard from "./ProductCard";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Projects() {
+export default function Products() {
   const sectionRef = useRef(null);
   const headerRef = useRef(null);
   const cardsRef = useRef([]);
 
-  const { projects } = siteData;
+  const { products } = siteData;
 
   useGSAP(
     () => {
@@ -32,9 +32,9 @@ export default function Projects() {
 
       gsap.from(cardsRef.current, {
         opacity: 0,
-        y: 60,
-        stagger: 0.2,
-        duration: 0.9,
+        y: 50,
+        stagger: 0.15,
+        duration: 0.8,
         ease: "power3.out",
         scrollTrigger: {
           trigger: cardsRef.current[0],
@@ -49,23 +49,21 @@ export default function Projects() {
   return (
     <section
       ref={sectionRef}
-      id="projects"
-      aria-label="Engineering projects"
-      className="relative overflow-hidden bg-black px-6 py-28 text-white md:py-40"
+      id="products"
+      aria-label="Products"
+      className="bg-[#0a0a0a] px-6 pb-28 text-white md:pb-40"
     >
-      <div className="pointer-events-none absolute right-0 top-1/4 h-[400px] w-[400px] rounded-full bg-white/[0.02] blur-3xl" />
-
-      <div className="relative mx-auto max-w-7xl">
-        <div ref={headerRef} className="mb-20 max-w-2xl">
-          <p className="text-xs font-medium uppercase tracking-[0.3em] text-white/40">{projects.eyebrow}</p>
-          <h2 className="mt-6 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">{projects.title}</h2>
-          <p className="mt-6 text-lg leading-relaxed text-white/50">{projects.description}</p>
+      <div className="mx-auto max-w-7xl">
+        <div ref={headerRef} className="mb-16 max-w-2xl">
+          <p className="text-xs font-medium uppercase tracking-[0.3em] text-white/40">{products.eyebrow}</p>
+          <h2 className="mt-6 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">{products.title}</h2>
+          <p className="mt-6 text-lg leading-relaxed text-white/50">{products.description}</p>
         </div>
 
         <div className="space-y-6">
-          {projects.items.map((project, index) => (
-            <div key={project.id} ref={(el) => (cardsRef.current[index] = el)}>
-              <ProjectCard project={project} index={index} />
+          {products.items.map((product, index) => (
+            <div key={product.id} ref={(el) => (cardsRef.current[index] = el)}>
+              <ProductCard product={product} />
             </div>
           ))}
         </div>

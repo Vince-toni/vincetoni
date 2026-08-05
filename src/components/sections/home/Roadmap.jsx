@@ -6,6 +6,8 @@ import { siteData } from "../../data";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const TIMELINE_X = 7; // center axis for line + dots (px)
+
 export default function Roadmap() {
   const sectionRef = useRef(null);
   const eyebrowRef = useRef(null);
@@ -72,12 +74,6 @@ export default function Roadmap() {
       });
 
 
-      /*
-      ==========================================
-      PROGRESS LINE
-      ==========================================
-      */
-
       gsap.fromTo(
         progressRef.current,
         {
@@ -98,11 +94,6 @@ export default function Roadmap() {
       );
 
 
-      /*
-      ==========================================
-      ACTIVE DOT ANIMATION
-      ==========================================
-      */
 
       dotsRef.current.forEach((dot, index) => {
 
@@ -228,41 +219,35 @@ export default function Roadmap() {
             ref={timelineRef}
             className="relative"
           >
-
-            {/* Base Timeline Line */}
-
-            <div className="absolute left-[7px] top-0 h-full w-px bg-white/10" />
-
-
-            {/* Animated Progress */}
-
+            {/* Base timeline line */}
             <div
-              ref={progressRef}
-              className="absolute left-[7px] top-0 h-full w-px origin-top bg-white/70"
+              className="absolute top-0 h-full w-px bg-white/10"
+              style={{ left: `${TIMELINE_X}px` }}
             />
 
+            {/* Animated progress line */}
+            <div
+              ref={progressRef}
+              className="absolute top-0 h-full w-px origin-top bg-white/70"
+              style={{ left: `${TIMELINE_X}px` }}
+            />
 
-            {/* Roadmap Items */}
-
+            {/* Roadmap items */}
             <div className="space-y-0">
-
               {roadmap.items.map((item, index) => (
-
                 <article
                   key={item.number}
                   ref={(el) => {
                     itemsRef.current[index] = el;
                   }}
-                  className="group relative pl-12 pb-20 last:pb-0 md:pl-16 md:pb-28"
+                  className="group relative rounded-r-xl pb-20 pl-10 pr-4 transition-colors duration-500 last:pb-0 hover:bg-white/[0.02] md:pb-28"
                 >
-
-                  {/* Timeline Dot */}
-
                   <span
                     ref={(el) => {
                       dotsRef.current[index] = el;
                     }}
-                    className="absolute left-0 top-1.5 h-[15px] w-[15px] rounded-full border border-white/20 bg-white/30 transition-transform"
+                    className="absolute top-1.5 h-[15px] w-[15px] -translate-x-1/2 rounded-full border border-white/20 bg-white/30 transition-all duration-300 group-hover:border-white/50 group-hover:shadow-[0_0_12px_rgba(255,255,255,0.3)]"
+                    style={{ left: `${TIMELINE_X}px` }}
                   />
 
 
